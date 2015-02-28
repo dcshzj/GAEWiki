@@ -1,14 +1,7 @@
 GAE Wiki
 ========
 
-This is a simple wiki engine for Google App Engine.
-
-
-Contributors
-============
-
-See gaewiki/AUTHORS
-
+This is a simple wiki engine for Google App Engine. It is currently written for use in the python2.7 runtime.
 
 License
 =======
