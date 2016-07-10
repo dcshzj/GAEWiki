@@ -52,7 +52,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">{{ settings.wiki_title|escape }}</a>
+          <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> {{ settings.wiki_title|escape }}</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -67,14 +67,18 @@
             {% else %}
               <li><a href="{{ log_in_url|escape }}"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
             {% endif %}
-           </ul>
+          </ul>
         </div>
-       <div class="navbar-menu collapse">
-	<div class="row">
-	  <div class="col-xs-6"><a href="/gaewiki:sidebar" class="btn btn-success btn-block btn-sm" role="button">Menu</a></div>
-	  <div class="col-xs-6"><a href="/w/backlinks?page={{ page.title|uurlencode }}" class="btn btn-info btn-block btn-sm" role="button">Pages that link here</a></div>
-	</div>
-	<br><br>
+        <div class="navbar-menu collapse">
+          <hr>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/gaewiki:sidebar"><span class="glyphicon glyphicon-tasks"></span> Menu</a></li>
+            {% if page.title %}
+            <li><a href="/w/backlinks?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-link"></span> Pages that link here</a></li>
+            {% endif %}
+            <li><a href="/w/specials"><span class="glyphicon glyphicon-wrench"></span> Special pages</a></li>
+          </ul>
+        </div>
        </div>
       </div>
     </div>

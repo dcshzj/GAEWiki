@@ -117,6 +117,7 @@ textarea {
 width: 100%;
 margin: .5em 0;
 border: solid 1px #CCC;
+font-family: monospace;
 }
 /* locked view */
 .glyphicon-lock {
