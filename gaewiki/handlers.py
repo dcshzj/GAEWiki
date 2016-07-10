@@ -508,6 +508,11 @@ class ImageListHandler(RequestHandler):
         self.reply(html, "text/html")
 
 
+class SpecialPagesHandler(RequestHandler):
+    def get(self):
+        self.reply(view.list_special_pages(), 'text/html')
+
+
 handlers = [
     ('/', StartPageHandler),
     ('/robots\.txt$', RobotsHandler),
@@ -531,6 +536,7 @@ handlers = [
     ('/w/pages/geotagged\.js', GeotaggedPagesJsonHandler),
     ('/w/pages/map', PageMapHandler),
     ('/w/profile', ProfileHandler),
+    ('/w/specials', SpecialPagesHandler),
     ('/w/users$', UsersHandler),
     ('/w/login', LoginHandler),
     ('/w/cache/purge$', CachePurgeHandler),

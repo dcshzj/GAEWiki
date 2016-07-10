@@ -88,7 +88,10 @@
         {% if page.is_saved %}
     {% endif %}
             <h3><span class="glyphicon glyphicon-briefcase"></span> Tools</h3>
+            {% if page.title %}
             <li><a href="/w/backlinks?page={{ page.title|uurlencode }}">Pages that link here</a></li>
+            {% endif %}
+            <li><a href="/w/specials">Special pages</a></li>
           </ul>
           </div>
         </div>

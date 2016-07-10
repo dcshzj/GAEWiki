@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block content %}
+  <ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="/w/specials"><span class="glyphicon glyphicon-wrench"></span> Special pages</a></li>
+</ul>
+    <h1>Special pages</h1>
+    <p>This is a list of special pages on the wiki.</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <a href="/robots.txt">robots.txt</a>
+          </td>
+          <td>
+            Text file for search engine robot crawlers.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/sitemap.xml">sitemap.xml</a>
+          </td>
+          <td>
+            The sitemap for the wiki.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/backlinks">Backlinks</a>
+          </td>
+          <td>
+            Pages that link to a specified page.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/cache/purge">Purge the cache</a>
+          </td>
+          <td>
+            Purges the memcache to force an update.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/changes">Changes</a>
+          </td>
+          <td>
+            List of pages with recent changes (with <a href="/w/changes.rss">RSS feed</a>).
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/data/export">Export data</a>
+          </td>
+          <td>
+            Export the contents of the wiki into a file for backup.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/data/import">Import data</a>
+          </td>
+          <td>
+            Import data into the wiki from a file.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/image/list">Image list</a>
+          </td>
+          <td>
+            List of images uploaded onto the wiki.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/image/upload">Upload images</a>
+          </td>
+          <td>
+            Upload images into the wiki.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/index">Page list</a>
+          </td>
+          <td>
+            List of pages on the wiki (with <a href="/w/index.rss">RSS feed</a>).
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/interwiki">Interwiki list</a>
+          </td>
+          <td>
+            List of valid interwikis that can be used on the wiki.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/login">User login</a>
+          </td>
+          <td>
+            Log in to the wiki.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/maps">Maps</a>
+          </td>
+          <td>
+            Shows a map on a page (requires map extension to be enabled).
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/profile">User profile</a>
+          </td>
+          <td>
+            The profile of the current user.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/specials">Special pages</a>
+          </td>
+          <td>
+            List of special pages on the wiki.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/users">User list</a>
+          </td>
+          <td>
+            List of users registered on the wiki.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

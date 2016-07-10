@@ -18,7 +18,7 @@ DEFAULT_LABEL_BODY = u"""name: %(title)s
 ---
 # %(title)s
 
-<p class="alert alert-info">Pages in this category:</p>
+## Pages in category "%(label)s"
 
 [[List:%(label)s]]
 
@@ -118,6 +118,10 @@ def list_pages_feed(pages):
     return render('index.rss', {
         'pages': pages,
     })
+
+
+def list_special_pages():
+    return render('special_pages.html', {})
 
 
 def show_page_history(page, user=None, is_admin=False):
