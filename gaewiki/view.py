@@ -18,11 +18,11 @@ DEFAULT_LABEL_BODY = u"""name: %(title)s
 ---
 # %(title)s
 
-Pages in this category:
+<p class="alert alert-info">Pages in this category:</p>
 
 [[List:%(label)s]]
 
-_This is an automatically generated page._
+_<p class="alert alert-info">This is an automatically generated page.</p>_
 """
 
 
@@ -55,7 +55,7 @@ def get_sidebar():
     if page.is_saved():
         body = page.body
     else:
-        body = u'<a href="/"><img src="/gae-wiki-static/logo-186.png" width="186" alt="logo" height="167"/></a>\n\nThis is a good place for a brief introduction to your wiki, a logo and such things.\n\n[Edit this text](/w/edit?page=%s)' % page_name
+        body = u'\n\n<h4>This sidebar is used as menu, place your wiki links inside a list with these html tags:</h4>\n\n<code><\\ul class="nav"><\li></code>\n\n<code>[&#173;[SAMPLE_LINK_TO_PAGE]]</code>\n\n<code><\/li><\/ul></code>\n\n[<ul class="nav"><li>Edit the menu</li></ul>](/w/edit?page=%s)' % page_name
     return body
 
 

@@ -51,9 +51,9 @@ class RequestHandler(webapp.RequestHandler):
 
     def show_error_page(self, status_code):
         defaults = {
-            400: 'Bad request.',
-            403: 'Access denied, try logging in.',
-            500: 'Something bad happened.',
+            400: '<p class="alert alert-info">Bad request.</p>',
+            403: '<p class="alert alert-warning">Access denied, try logging in.</p>',
+            500: '<p class="alert alert-danger">Something bad happened.</p>',
         }
         page = model.WikiContent.get_error_page(status_code, defaults.get(status_code))
         self.reply(view.view_page(page, user=users.get_current_user(), is_admin=users.is_current_user_admin()), 'text/html')

@@ -1,23 +1,21 @@
 {% extends "base.html" %}
 {% block title %}{{ page_title|escape }}{% endblock %}
 {% block content %}
-<ul id="tabs">
-  <li><a href="{{ page_title|pageurl }}">View</a></li>
+<ul class="nav nav-tabs" role="tablist">
+  <li><a href="{{ page_title|pageurl }}"><span class="glyphicon glyphicon-eye-open"></span> View</a></li>
   {% if can_edit %}
-  <li><a href="/w/edit?page={{ page_title|uurlencode }}">Edit</a></li>
+  <li><a href="/w/edit?page={{ page_title|uurlencode }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
   {% endif %}
-  <li class="active"><a href="/w/history?page={{ page_title|uurlencode }}">History</a></li>
+  <li class="active"><a href="/w/history?page={{ page_title|uurlencode }}"><span class="glyphicon glyphicon-circle-arrow-left"></span> History</a></li>
 </ul>
-<div id="pb" class="wtabs">
 <h1>{{ page_title|escape }}</h1>
-
 {% if revisions %}
-  <p>The following revisions are available:</p>
-  <ul>{% for revision in revisions %}
-    <li><a class="int" href="{{ page_title|pageurl }}?r={{ revision.key }}">Revision from {{ revision.created|timezone|date:"Y/m/d H:i:s"}}</a></li>
+  <p class="alert alert-info" role="alert">The following revisions are available:</p>
+  <ul class="list-group">{% for revision in revisions %}
+    <li class="list-group-item"><a href="{{ page_title|pageurl }}?r={{ revision.key }}">Revision from <span class="badge">{{ revision.created|timezone|date:"Y/m/d H:i:s"}}</span></a></li>
   {% endfor %}</ul>
 {% else %}
-<p>We have no records for this page.</p>
+<p class="alert alert-info" role="alert">We have no records for this page.</p>
 {% endif %}
 </div>
 {% endblock %}

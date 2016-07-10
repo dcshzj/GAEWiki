@@ -147,7 +147,7 @@ def list_pages_by_label(label):
     items = []
     for page in pages:
         page_name = page.redirect or page.title
-        items.append(u'<li><a class="int" href="%(url)s" title="%(hint)s">%(title)s</a></li>' % {
+        items.append(u'<li class="list-group-item"><a href="%(url)s" title="%(hint)s">%(title)s</a></li>' % {
             "url": pageurl(page_name),
             "hint": cgi.escape(page_name),
             "title": page.get_property('display_title', page.title),
@@ -156,7 +156,7 @@ def list_pages_by_label(label):
     if not items:
         return ""
 
-    return u'<ul class="labellist">%s</ul>' % u''.join(items)
+    return u'<ul class="list-group">%s</ul>' % u''.join(items)
 
 
 def process_special_token(text, page_name):
