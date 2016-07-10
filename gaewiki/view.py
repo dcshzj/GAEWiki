@@ -22,7 +22,7 @@ DEFAULT_LABEL_BODY = u"""name: %(title)s
 
 [[List:%(label)s]]
 
-_<p class="alert alert-info">This is an automatically generated page.</p>_
+_<p class="alert alert-info">**Note**: This is an automatically generated page.</p>_
 """
 
 

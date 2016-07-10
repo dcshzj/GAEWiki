@@ -139,7 +139,7 @@ height: 0px;
 
 /* link to non existing page */
 .missing {
-font-style: italic;
+color: #a55858;
 }
 
 /* style the menu items on sidebar menu */

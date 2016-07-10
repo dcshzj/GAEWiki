@@ -46,7 +46,7 @@ class RequestHandler(webapp.RequestHandler):
             logging.debug('%s = %s' % (k, self.request.get(k)))
 
     def check_open_wiki(self):
-        if not access.can_see_most_pages(users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
 
     def show_error_page(self, status_code):
@@ -56,7 +56,7 @@ class RequestHandler(webapp.RequestHandler):
             500: '<p class="alert alert-danger">Something bad happened.</p>',
         }
         page = model.WikiContent.get_error_page(status_code, defaults.get(status_code))
-        self.reply(view.view_page(page, user=users.get_current_user(), is_admin=users.is_current_user_admin()), 'text/html')
+        self.reply(view.view_page(page, user=users.GetCurrentUser(), is_admin=users.IsCurrentUserAdmin()), 'text/html')
 
     def handle_exception(self, e, debug_mode):
         if debug_mode or True:
@@ -93,7 +93,7 @@ class RequestHandler(webapp.RequestHandler):
     def get_memcache(self):
         """memcache is active only anonymous user."""
         content = None
-        user = users.get_current_user()
+        user = users.GetCurrentUser()
         if not user:
             content = memcache.get(self.get_memcache_key())
         if not content:
@@ -113,7 +113,7 @@ class PageHandler(RequestHandler):
     def show_page(self, title):
         if title.startswith('w/'):
             raise Exception('No such page.')
-        if not access.can_read_page(title, users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_read_page(title, users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
         self.title = title.replace('_', ' ')
         self.raw = self.request.get("format") == "raw"
@@ -146,7 +146,7 @@ class PageHandler(RequestHandler):
                 page.body = revision.revision_body
                 page.author = revision.author
                 page.updated = revision.created
-            return view.view_page(page, user=users.get_current_user(), is_admin=users.is_current_user_admin(), revision=self.revision)
+            return view.view_page(page, user=users.GetCurrentUser(), is_admin=users.IsCurrentUserAdmin(), revision=self.revision)
 
 
 class StartPageHandler(PageHandler):
@@ -165,8 +165,8 @@ class EditHandler(RequestHandler):
         page = model.WikiContent.get_by_title(title)
         if body:
             page.body = body
-        user = users.get_current_user()
-        is_admin = users.is_current_user_admin()
+        user = users.GetCurrentUser()
+        is_admin = users.IsCurrentUserAdmin()
         if not access.can_edit_page(title, user, is_admin):
             raise Forbidden
         if not body and not page.is_saved():
@@ -179,8 +179,8 @@ class EditHandler(RequestHandler):
             self.edit_page(title, self.request.get('body'))
             return
 
-        user = users.get_current_user()
-        if not access.can_edit_page(title, user, users.is_current_user_admin()):
+        user = users.GetCurrentUser()
+        if not access.can_edit_page(title, user, users.IsCurrentUserAdmin()):
             raise Forbidden
         page = model.WikiContent.get_by_title(title)
         page.update(body=self.request.get('body'), author=user, delete=self.request.get('delete'))
@@ -190,7 +190,7 @@ class EditHandler(RequestHandler):
 
 class CachePurgeHandler(webapp.RequestHandler):
     def get(self):
-        if users.is_current_user_admin():
+        if users.IsCurrentUserAdmin():
             taskqueue.add(url="/w/cache/purge", params={})
 
     def post(self):
@@ -250,7 +250,7 @@ class PagesFeedHandler(RequestHandler):
 class PageHistoryHandler(RequestHandler):
     def get(self):
         self.title = self.request.get('page')
-        if not access.can_read_page(self.title, users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_read_page(self.title, users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
         self.reply(self.get_memcache(), 'text/html')
 
@@ -259,7 +259,7 @@ class PageHistoryHandler(RequestHandler):
 
     def get_content(self):
         page = model.WikiContent.get_by_title(self.title)
-        return view.show_page_history(page, user=users.get_current_user(), is_admin=users.is_current_user_admin())
+        return view.show_page_history(page, user=users.GetCurrentUser(), is_admin=users.IsCurrentUserAdmin())
 
 
 class RobotsHandler(RequestHandler):
@@ -285,7 +285,7 @@ class SitemapHandler(RequestHandler):
 
 class ChangesHandler(RequestHandler):
     def get(self):
-        if not access.can_see_most_pages(users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
         self.reply(self.get_memcache(), 'text/html')
 
@@ -298,7 +298,7 @@ class ChangesHandler(RequestHandler):
 
 class ChangesFeedHandler(RequestHandler):
     def get(self):
-        if not access.can_see_most_pages(users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
         self.reply(self.get_memcache(), 'text/xml')
 
@@ -312,7 +312,7 @@ class ChangesFeedHandler(RequestHandler):
 class BackLinksHandler(RequestHandler):
     def get(self):
         self.title = self.request.get('page')
-        if not access.can_read_page(self.title, users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_read_page(self.title, users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
         self.reply(self.get_memcache(), 'text/html')
 
@@ -326,7 +326,7 @@ class BackLinksHandler(RequestHandler):
 
 class UsersHandler(RequestHandler):
     def get(self):
-        if not users.is_current_user_admin():
+        if not users.IsCurrentUserAdmin():
             raise Forbidden
         # self.check_open_wiki()
         self.reply(view.get_users(model.WikiUser.get_all()), 'text/html')
@@ -334,7 +334,7 @@ class UsersHandler(RequestHandler):
 
 class DataExportHandler(RequestHandler):
     def get(self):
-        if not users.is_current_user_admin():
+        if not users.IsCurrentUserAdmin():
             raise Forbidden
         pages = dict([(p.title, {
             'author': p.author and p.author.wiki_user.email(),
@@ -346,12 +346,12 @@ class DataExportHandler(RequestHandler):
 
 class DataImportHandler(RequestHandler):
     def get(self):
-        if not users.is_current_user_admin():
+        if not users.IsCurrentUserAdmin():
             raise Forbidden
         self.reply(view.get_import_form(), 'text/html')
 
     def post(self):
-        if not users.is_current_user_admin():
+        if not users.IsCurrentUserAdmin():
             raise Forbidden
         merge = self.request.get('merge') != ''
 
@@ -373,14 +373,14 @@ class InterwikiHandler(RequestHandler):
 class ProfileHandler(RequestHandler):
     """Implements personal profile pages."""
     def get(self):
-        user = users.get_current_user()
+        user = users.GetCurrentUser()
         if user is None:
             raise Forbidden
         wiki_user = model.WikiUser.get_or_create(user)
         self.reply(view.show_profile(wiki_user), 'text/html')
 
     def post(self):
-        user = users.get_current_user()
+        user = users.GetCurrentUser()
         if user is None:
             raise Forbidden
         wiki_user = model.WikiUser.get_or_create(user)
@@ -443,7 +443,7 @@ class MapHandler(RequestHandler):
         page = model.WikiContent.get_by_title(self.request.get('page_name'))
         if page is None:
             raise NotFound('Page not found.')
-        if access.can_edit_page(page.title, users.get_current_user(), users.is_current_user_admin()):
+        if access.can_edit_page(page.title, users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             geo = self.request.get('lat') + ',' + self.request.get('lng')
             page.set_property('geo', geo)
             page.put()
@@ -458,8 +458,8 @@ class LoginHandler(RequestHandler):
 
 class ImageUploadHandler(RequestHandler, blobstore_handlers.BlobstoreUploadHandler):
     def get(self):
-        user = users.get_current_user()
-        is_admin = users.is_current_user_admin()
+        user = users.GetCurrentUser()
+        is_admin = users.IsCurrentUserAdmin()
         if not access.can_upload_image(user, is_admin):
             raise Forbidden
 
@@ -469,7 +469,7 @@ class ImageUploadHandler(RequestHandler, blobstore_handlers.BlobstoreUploadHandl
         self.reply(html, "text/html")
 
     def post(self):
-        if not access.can_upload_image(users.get_current_user(), users.is_current_user_admin()):
+        if not access.can_upload_image(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
             raise Forbidden
         # After the file is uploaded, grab the blob key and return the image URL.
         upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
@@ -495,16 +495,16 @@ class ImageServeHandler(RequestHandler):
         page_title = "Image:" + img.get_key()
         data["pages"] = model.WikiContent.find_backlinks_for(page_title)
 
-        html = view.view_image(data, user=users.get_current_user(),
-            is_admin=users.is_current_user_admin())
+        html = view.view_image(data, user=users.GetCurrentUser(),
+            is_admin=users.IsCurrentUserAdmin())
         self.reply(html, 'text/html')
 
 
 class ImageListHandler(RequestHandler):
     def get(self):
         lst = images.Image.find_all()
-        html = view.view_image_list(lst, users.get_current_user(),
-            users.is_current_user_admin())
+        html = view.view_image_list(lst, users.GetCurrentUser(),
+            users.IsCurrentUserAdmin())
         self.reply(html, "text/html")
 
 
