@@ -489,6 +489,7 @@ class ImageServeHandler(RequestHandler):
                 ("thumbnail", img.get_url(75, True), img.get_code(75, True)),
                 ("small", img.get_url(200, False), img.get_code(200, False)),
                 ("medium", img.get_url(500, False), img.get_code(500, False)),
+                ("original", img.get_url(), img.get_code()),
             ]
         }
 

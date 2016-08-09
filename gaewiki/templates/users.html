@@ -6,6 +6,7 @@
     <table class="table">
       <thead>
         <tr>
+          <th>Nickname</th>
           <th>Email</th>
           <th>First activity</th>
         </tr>
@@ -13,7 +14,8 @@
       <tbody>
       {% for user in users %}
         <tr>
-          <td><a href="/user%3A{{ user.get_nickname|uurlencode }}">{{ user.get_nickname|escape }}</a></td>
+          <td><a href="/User%3A{{ user.get_nickname|uurlencode }}">{{ user.get_nickname|escape }}</a></td>
+          <td>{{ user.get_public_email|escape }}</td>
           <td>{{ user.joined|timezone|date:"Y/m/d" }}</td>
         </tr>
       {% endfor %}
