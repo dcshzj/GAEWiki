@@ -7,6 +7,9 @@
   <li><a href="/w/edit?page={{ page_title|uurlencode }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
   {% endif %}
   <li class="active"><a href="/w/history?page={{ page_title|uurlencode }}"><span class="glyphicon glyphicon-circle-arrow-left"></span> History</a></li>
+  {% if is_saved and is_admin %}
+  <li><a href="/w/delete?page={{ page_title|uurlencode }}"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+  {% endif %}
 </ul>
 <h1>{{ page_title|escape }}</h1>
 {% if revisions %}

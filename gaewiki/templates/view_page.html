@@ -15,6 +15,9 @@
   {% if page.body %}
   <li><a href="/w/history?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-circle-arrow-left"></span> History</a></li>
   {% endif %}
+  {% if page.is_saved and is_admin %}
+  <li><a href="/w/delete?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+  {% endif %}
 </ul>
   {% if page.body %}
       <div class="breadcrumb">

@@ -9,11 +9,14 @@ default_expiration: "7d"
 handlers:
 - url: /gae-wiki-static/
   static_dir: gaewiki/static
+  secure: always
 - url: /favicon.ico
   static_files: gaewiki/static/favicon.ico
   upload: gaewiki/static/favicon.ico
+  secure: always
 - url: .*
   script: gaewiki.application
+  secure: always
 
 libraries:
 - name: django

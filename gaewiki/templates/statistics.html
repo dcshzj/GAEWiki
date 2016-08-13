@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="/w/statistics"><span class="glyphicon glyphicon-stats"></span> Statistics</a></li>
+</ul>
+    <h1>Statistics</h1>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <a href="/w/index">All pages</a>
+          </td>
+          <td>
+            {{ pagecount|escape }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/image/list">Uploaded images</a>
+          </td>
+          <td>
+            {{ imagecount|escape }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/w/users">Registered users</a>
+          </td>
+          <td>
+            {{ usercount|escape }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

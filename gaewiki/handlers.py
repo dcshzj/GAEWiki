@@ -183,7 +183,33 @@ class EditHandler(RequestHandler):
         if not access.can_edit_page(title, user, users.IsCurrentUserAdmin()):
             raise Forbidden
         page = model.WikiContent.get_by_title(title)
-        page.update(body=self.request.get('body'), author=user, delete=self.request.get('delete'))
+        page.update(body=self.request.get('body'), author=user, delete=False)
+        self.redirect('/' + urllib.quote(page.title.encode('utf-8').replace(' ', '_')))
+        taskqueue.add(url="/w/cache/purge", params={})
+
+
+class DeleteHandler(RequestHandler):
+    def get(self):
+        title = self.request.get('page')
+        page = model.WikiContent.get_by_title(title)
+        if not title or not page.is_saved():
+            raise BadRequest
+        self.delete_page(title)
+
+    def delete_page(self, title):
+        is_admin = users.IsCurrentUserAdmin()
+        page = model.WikiContent.get_by_title(title)
+        if not is_admin:
+            raise Forbidden
+        self.reply(view.delete_page(page), 'text/html')
+
+    def post(self):
+        title = urllib.unquote(str(self.request.get('name'))).decode('utf-8')
+        is_admin = users.IsCurrentUserAdmin()
+        if not is_admin:
+            raise Forbidden
+        page = model.WikiContent.get_by_title(title)
+        page.update(body=None, author=None, delete=self.request.get('delete'))
         self.redirect('/' + urllib.quote(page.title.encode('utf-8').replace(' ', '_')))
         taskqueue.add(url="/w/cache/purge", params={})
 
@@ -514,6 +540,16 @@ class SpecialPagesHandler(RequestHandler):
         self.reply(view.list_special_pages(), 'text/html')
 
 
+class StatisticsHandler(RequestHandler):
+    def get(self):
+        data = {
+            "pagecount": len(model.WikiContent.get_all()),
+            "imagecount": len(images.Image.find_all()),
+            "usercount": len(model.WikiUser.get_all()),
+        }
+        self.reply(view.show_statistics_page(data), "text/html")
+
+
 handlers = [
     ('/', StartPageHandler),
     ('/robots\.txt$', RobotsHandler),
@@ -523,6 +559,7 @@ handlers = [
     ('/w/changes\.rss$', ChangesFeedHandler),
     ('/w/data/export$', DataExportHandler),
     ('/w/data/import$', DataImportHandler),
+    ('/w/delete$', DeleteHandler),
     ('/w/edit$', EditHandler),
     ('/w/history$', PageHistoryHandler),
     ('/w/image/upload', ImageUploadHandler),
@@ -538,6 +575,7 @@ handlers = [
     ('/w/pages/map', PageMapHandler),
     ('/w/profile', ProfileHandler),
     ('/w/specials', SpecialPagesHandler),
+    ('/w/statistics', StatisticsHandler),
     ('/w/users$', UsersHandler),
     ('/w/login', LoginHandler),
     ('/w/cache/purge$', CachePurgeHandler),

@@ -22,6 +22,9 @@
     <li><a href="{{ page.title|pageurl }}"><span class="glyphicon glyphicon-eye-open"></span> View</a></li>
     <li class="active"><a href="/w/edit?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
     <li><a href="/w/history?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-circle-arrow-left"></span> History</a></li>
+    {% if page.is_saved %}
+    <li><a href="/w/delete?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+    {% endif %}
   </ul>
     <h1>Page Preview: {% if page.title %}{{ page.title|escape }}{% else %}New page{% endif %}</h1>
       <div id="preview-back">
@@ -40,9 +43,6 @@
         <div class="well well-sm">
         <textarea rows="20" cols="80" name="body" id="editor">{% if page.body %}{{ page.get_actual_body }}{% endif %}</textarea>
         </div>
-        {% if page.is_saved %}
-        <p><label><input type="checkbox" value="1" name="delete"/> Delete this page</label></p>
-        {% endif %}
         <p class="alert alert-info" role="alert">You can use HTML and <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown</a> for formatting, <a class="int" href="/w/interwiki" target="_blank">interwikis</a> for linking.</p>
         <p div class="alert alert-success" role="alert">You can <a href="/w/image/upload" target="_blank">upload images</a> to embed them, or embed <a href="/w/image/list" target="_blank">an existing one</a>.</p>
         <input class="btn btn-primary" type="submit" name="Save" value="Publish page"/> <input class="btn btn-default" type="submit" name="Preview" value="Preview changes"/> <a class="btn btn-danger" href="{{ page.title|pageurl }}">Cancel</a>

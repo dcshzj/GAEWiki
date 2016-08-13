@@ -106,10 +106,17 @@ def edit_page(page):
     })
 
 
+def delete_page(page):
+    return render('delete_page.html', {
+        'page': page,
+    })
+
+
 def list_pages(pages):
     logging.debug(u'Listing %u pages.' % len(pages))
     return render('index.html', {
         'pages': pages,
+        'pagecount': len(pages),
     })
 
 
@@ -124,11 +131,17 @@ def list_special_pages():
     return render('special_pages.html', {})
 
 
+def show_statistics_page(data):
+    return render('statistics.html', data)
+
+
 def show_page_history(page, user=None, is_admin=False):
     return render('history.html', {
         'page_title': page.title,
         'revisions': page.get_history(),
         'can_edit': access.can_edit_page(page.title, user, is_admin),
+        'is_saved': page.is_saved(),
+        'is_admin': is_admin,
     })
 
 

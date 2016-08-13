@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Delete "{{ page.title|escape }}"{% if settings.wiki_title %} — {{ settings.wiki_title|escape }}{% endif %}{% endblock %}
+{% block heads %}
+<script type="text/javascript" src="/gae-wiki-static/scripts/btstrp/jquery.min.js"></script>
+<!--
+<script type="text/javascript" src="/gae-wiki-static/scripts/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="/gae-wiki-static/scripts/markitup/sets/markdown/set.js"></script>
+-->
+<script type="text/javascript" src="/gae-wiki-static/editor.js"></script>
+<!--
+<link rel="stylesheet" type="text/css" href="/gae-wiki-static/scripts/markitup/skins/markitup/style.css" />
+<link rel="stylesheet" type="text/css" href="/gae-wiki-static/scripts/markitup/sets/markdown/style.css" />
+<script type="text/javascript">
+   jQuery(document).ready(function($) {
+      $("textarea").markItUp(mySettings);
+   });
+</script>
+-->
+{% endblock %}
+{% block content %}
+  <ul class="nav nav-tabs" role="tablist">
+    <li><a href="{{ page.title|pageurl }}"><span class="glyphicon glyphicon-eye-open"></span> View</a></li>
+    <li><a href="/w/edit?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-pencil"></span> Edit</a></li>
+    <li><a href="/w/history?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-circle-arrow-left"></span> History</a></li>
+    <li class="active"><a href="/w/delete?page={{ page.title|uurlencode }}"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+  </ul>
+    <h1>Delete "{{ page.title|escape }}"</h1>
+    <p class="alert alert-danger"><b>Warning:</b> You are about to delete "{{ page.title|escape }}". Deleting it will cause all contents to be deleted forever and <b>can never be recovered</b>! Please confirm that you wish to do so.</p>
+    <form action="/w/delete" method="POST">
+        <input type="hidden" name="name" value="{{ page.title|uurlencode }}"/>
+        <input type="hidden" name="delete" value="1"/></p>
+        <input class="btn btn-danger" type="submit" name="Delete" value="Confirm deletion"/> <a class="btn btn-default" href="{{ page.title|pageurl }}">Cancel</a>
+    </form>
+  </div>
+{% endblock %}
