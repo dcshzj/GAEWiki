@@ -52,3 +52,6 @@ class Image(object):
         if crop:
             code += ";crop"
         return "[[" + code + "]]"
+
+    def delete(self):
+        self.blob.delete()

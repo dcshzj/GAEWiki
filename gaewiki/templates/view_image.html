@@ -5,6 +5,7 @@
   <li class="active"><a href="#"><span class="glyphicon glyphicon-eye-open"></span> View</a></li>
   <li><a href="/w/image/list"><span class="glyphicon glyphicon-th-list"></span> List</a></li>
   <li><a href="/w/image/upload"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>
+  <li><a href="/w/image/delete?key={{ image.key|uurlencode }}"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
 </ul>
   <h1>{{ image.meta.filename|escape }}</h1>
   <p class="alert alert-info" role="alert">This file was uploaded on {{ image.meta.creation }}.</p>

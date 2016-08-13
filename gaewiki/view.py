@@ -268,3 +268,7 @@ def view_image_list(lst, user, is_admin):
         "is_admin": is_admin,
     }
     return render("image_list.html", data)
+
+
+def delete_image(img):
+    return render("delete_image.html", img)

@@ -505,12 +505,35 @@ class ImageUploadHandler(RequestHandler, blobstore_handlers.BlobstoreUploadHandl
         return self.redirect(image_page_url)
 
 
+class ImageDeleteHandler(RequestHandler):
+    def get(self):
+        img = images.Image.get_by_key(self.request.get("key"))
+        data = {
+            "meta": img.get_info(),
+            "key": img.get_key(),
+        }
+        is_admin = users.IsCurrentUserAdmin()
+        if not is_admin:
+            raise Forbidden
+        self.reply(view.delete_image(data), 'text/html')
+
+    def post(self):
+        img = images.Image.get_by_key(self.request.get("key"))
+        is_admin = users.IsCurrentUserAdmin()
+        if not is_admin:
+            raise Forbidden
+        img.delete()
+        self.redirect('/w/image/list')
+        taskqueue.add(url="/w/cache/purge", params={})
+
+
 class ImageServeHandler(RequestHandler):
     def get(self):
         img = images.Image.get_by_key(self.request.get("key"))
 
         data = {
             "meta": img.get_info(),
+            "key": img.get_key(),
             "versions": [
                 ("thumbnail", img.get_url(75, True), img.get_code(75, True)),
                 ("small", img.get_url(200, False), img.get_code(200, False)),
@@ -565,6 +588,7 @@ handlers = [
     ('/w/image/upload', ImageUploadHandler),
     ('/w/image/view', ImageServeHandler),
     ('/w/image/list', ImageListHandler),
+    ('/w/image/delete', ImageDeleteHandler),
     ('/w/index$', IndexHandler),
     ('/w/index\.rss$', IndexFeedHandler),
     ('/w/interwiki$', InterwikiHandler),
