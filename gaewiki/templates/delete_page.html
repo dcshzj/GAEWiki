@@ -2,20 +2,6 @@
 {% block title %}Delete "{{ page.title|escape }}"{% if settings.wiki_title %} — {{ settings.wiki_title|escape }}{% endif %}{% endblock %}
 {% block heads %}
 <script type="text/javascript" src="/gae-wiki-static/scripts/btstrp/jquery.min.js"></script>
-<!--
-<script type="text/javascript" src="/gae-wiki-static/scripts/markitup/jquery.markitup.js"></script>
-<script type="text/javascript" src="/gae-wiki-static/scripts/markitup/sets/markdown/set.js"></script>
--->
-<script type="text/javascript" src="/gae-wiki-static/editor.js"></script>
-<!--
-<link rel="stylesheet" type="text/css" href="/gae-wiki-static/scripts/markitup/skins/markitup/style.css" />
-<link rel="stylesheet" type="text/css" href="/gae-wiki-static/scripts/markitup/sets/markdown/style.css" />
-<script type="text/javascript">
-   jQuery(document).ready(function($) {
-      $("textarea").markItUp(mySettings);
-   });
-</script>
--->
 {% endblock %}
 {% block content %}
   <ul class="nav nav-tabs" role="tablist">
