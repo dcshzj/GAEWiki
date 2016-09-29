@@ -392,6 +392,8 @@ class DataImportHandler(RequestHandler):
 
 class InterwikiHandler(RequestHandler):
     def get(self):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
+            raise Forbidden
         iw = settings.get_interwikis()
         self.reply(view.show_interwikis(iw), 'text/html')
 
@@ -529,6 +531,8 @@ class ImageDeleteHandler(RequestHandler):
 
 class ImageServeHandler(RequestHandler):
     def get(self):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
+            raise Forbidden
         img = images.Image.get_by_key(self.request.get("key"))
 
         data = {
@@ -552,6 +556,8 @@ class ImageServeHandler(RequestHandler):
 
 class ImageListHandler(RequestHandler):
     def get(self):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
+            raise Forbidden
         lst = images.Image.find_all()
         html = view.view_image_list(lst, users.GetCurrentUser(),
             users.IsCurrentUserAdmin())
@@ -560,11 +566,15 @@ class ImageListHandler(RequestHandler):
 
 class SpecialPagesHandler(RequestHandler):
     def get(self):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
+            raise Forbidden
         self.reply(view.list_special_pages(), 'text/html')
 
 
 class StatisticsHandler(RequestHandler):
     def get(self):
+        if not access.can_see_most_pages(users.GetCurrentUser(), users.IsCurrentUserAdmin()):
+            raise Forbidden
         data = {
             "pagecount": len(model.WikiContent.get_all()),
             "imagecount": len(images.Image.find_all()),
