@@ -290,11 +290,16 @@ class PageHistoryHandler(RequestHandler):
 
 class RobotsHandler(RequestHandler):
     def get(self):
-        content = "Sitemap: %s/sitemap.xml\n" % util.get_base_url()
+        content = "# Manage this page in gaewiki:robots.txt\n"
+        content += "Sitemap: %s/sitemap.xml\n" % util.get_base_url()
         content += "User-agent: *\n"
         content += "Disallow: /gae-wiki-static/\n"
         content += "Disallow: /w/\n"
-        self.reply(content, 'text/plain')
+
+        page = model.WikiContent.get_by_title("gaewiki:robots.txt")
+        body = model.WikiContent.parse_body(page.body or content)
+        content_type = str(body.get("content-type", "text/plain"))
+        self.reply(body["text"], content_type=content_type)
 
 
 class SitemapHandler(RequestHandler):
